@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            user-select: none; /* يمنع تحديد النص */
+            -webkit-user-select: none; /* لمتصفحات WebKit مثل Chrome وSafari */
+            -moz-user-select: none; /* لمتصفح Firefox */
+            -ms-user-select: none; /* لمتصفح Internet Explorer/Edge */
+        }
+        @media print {
+            body {
+                display: none;
+            }
+        }
+        .quiz-container {
+            width: 90%;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #007BFF;
+        }
+        .timer {
+            color: red;
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .question p {
+            font-weight: bold;
+        }
+        .options label {
+            display: block;
+            margin: 5px 0;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            display: none;
+        }
+        .incorrect {
+            color: red;
+        }
+        .correct {
+            color: green;
+        }
+        .question-result {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1></h1>
+        <div class="timer" id="timer">Time remaining: 60 seconds</div>
+
+        <div class="question" id="question-1">
+            <p>1- 24 years old woman is referred to clinic for assessment of low white cell count. She has no past medical history. Her only symptoms are of joint discomfort in her hands and sharp chest pain that changes with breathing. There is inflammation of some MCP and DIP joints in both hands. WBCs are 3500 and lymphocytes are low 15%. Which of the following is the most likely diagnosis?</p>
+            <div class="options">
+                <label><input type="radio" name="q1" value="Polyarteritis nodosa"> Polyarteritis nodosa</label>
+                <label><input type="radio" name="q1" value="SLE"> SLE</label>
+                <label><input type="radio" name="q1" value="Scleroderma"> Scleroderma</label>
+                <label><input type="radio" name="q1" value="DM"> DM</label>
+                <label><input type="radio" name="q1" value="Osteoarthritis"> Osteoarthritis</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-2">
+            <p>2- Which one of the following antibodies is most specific for systemic lupus erythematous?</p>
+            <div class="options">
+                <label><input type="radio" name="q2" value="Anti-neutrophil cytoplasmic antibodies"> Anti-neutrophil cytoplasmic antibodies</label>
+                <label><input type="radio" name="q2" value="Antinuclear antibodies"> Antinuclear antibodies</label>
+                <label><input type="radio" name="q2" value="Anti-Sm antibodies"> Anti-Sm antibodies</label>
+                <label><input type="radio" name="q2" value="Anti-RNP antibodies"> Anti-RNP antibodies</label>
+                <label><input type="radio" name="q2" value="Anti-cardiolipin antibodies"> Anti-cardiolipin antibodies</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-3">
+            <p>3- Which of the following auto-antibodies may have a role in monitoring disease activity?</p>
+            <div class="options">
+                <label><input type="radio" name="q3" value="Rheumatoid factor in RA"> Rheumatoid factor in RA</label>
+                <label><input type="radio" name="q3" value="Antinuclear antibodies in SLE"> Antinuclear antibodies in SLE</label>
+                <label><input type="radio" name="q3" value="Anti-Sm antibodies in SLE"> Anti-Sm antibodies in SLE</label>
+                <label><input type="radio" name="q3" value="Anti-dsDNA antibodies in SLE"> Anti-dsDNA antibodies in SLE</label>
+                <label><input type="radio" name="q3" value="Anti-Ro (SSA) antibodies in Sjogren's syndrome"> Anti-Ro (SSA) antibodies in Sjogren's syndrome</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-4">
+            <p>4- A 24-year-old woman is newly diagnosed with systemic lupus erythematosus. Which of the following organ system complications is she most likely to have over the course of her lifetime?</p>
+            <div class="options">
+                <label><input type="radio" name="q4" value="Cardiopulmonary"> Cardiopulmonary</label>
+                <label><input type="radio" name="q4" value="Cutaneous"> Cutaneous</label>
+                <label><input type="radio" name="q4" value="Hematologic"> Hematologic</label>
+                <label><input type="radio" name="q4" value="Musculoskeletal"> Musculoskeletal</label>
+                <label><input type="radio" name="q4" value="Renal"> Renal</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-5">
+            <p>5- Low levels of which one of the following types of complement are associated with the development of systemic lupus erythematosus?</p>
+            <div class="options">
+                <label><input type="radio" name="q5" value="C4"> C4</label>
+                <label><input type="radio" name="q5" value="C5"> C5</label>
+                <label><input type="radio" name="q5" value="C6"> C6</label>
+                <label><input type="radio" name="q5" value="C7"> C7</label>
+                <label><input type="radio" name="q5" value="C8"> C8</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-6">
+            <p>6- Which one of the following statements concerning discoid lupus is correct?</p>
+            <div class="options">
+                <label><input type="radio" name="q6" value="Commonly progresses to SLE"> Commonly progresses to SLE</label>
+                <label><input type="radio" name="q6" value="Causes non-scarring alopecia"> Causes non-scarring alopecia</label>
+                <label><input type="radio" name="q6" value="Characterised by follicular keratin plugs"> Characterised by follicular keratin plugs</label>
+                <label><input type="radio" name="q6" value="Is rarely photosensitive"> Is rarely photosensitive</label>
+                <label><input type="radio" name="q6" value="Typically presents in older males"> Typically presents in older males</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-7">
+            <p>7- Which one of the following statements regarding systemic lupus erythematosus is true?</p>
+            <div class="options">
+                <label><input type="radio" name="q7" value="It is linked with HLA A5"> It is linked with HLA A5</label>
+                <label><input type="radio" name="q7" value="Onset is typically between 20-40 years old"> Onset is typically between 20-40 years old</label>
+                <label><input type="radio" name="q7" value="It is more common in Caucasians"> It is more common in Caucasians</label>
+                <label><input type="radio" name="q7" value="The female:male ratio is 3:1"> The female:male ratio is 3:1</label>
+                <label><input type="radio" name="q7" value="The incidence has decreased in the past 30 years"> The incidence has decreased in the past 30 years</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-8">
+            <p>8- Which of the following autoantibodies is least likely to be present in a patient with systemic lupus erythematosus?</p>
+            <div class="options">
+                <label><input type="radio" name="q8" value="Anti-dsDNA"> Anti-dsDNA</label>
+                <label><input type="radio" name="q8" value="Antinuclear antibodies"> Antinuclear antibodies</label>
+                <label><input type="radio" name="q8" value="Anti-La (SS-B)"> Anti-La (SS-B)</label>
+                <label><input type="radio" name="q8" value="Anti smith"> Anti smith</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-9">
+            <p>9- A 25-year-old lady with known systemic lupus erythematosus (SLE) presents with the nephrotic syndrome. A renal biopsy is performed and this confirms diffuse proliferative glomerulonephritis (WHO Class IV). Which of the following treatment regimens would you advise?</p>
+            <div class="options">
+                <label><input type="radio" name="q9" value="Azathioprine alone"> Azathioprine alone</label>
+                <label><input type="radio" name="q9" value="Prednisolone alone"> Prednisolone alone</label>
+                <label><input type="radio" name="q9" value="Prednisolone and intravenous cyclophosphamide"> Prednisolone and intravenous cyclophosphamide</label>
+                <label><input type="radio" name="q9" value="Prednisolone and methotrexate"> Prednisolone and methotrexate</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-10">
+            <p>10- A 69-year-old woman taking hydralazine for hypertension presents with joint pain and chest pain. On cardiac examination, the patient has a pericardial rub. What is the diagnosis?</p>
+            <div class="options">
+                <label><input type="radio" name="q10" value="Dermatomyositis"> Dermatomyositis</label>
+                <label><input type="radio" name="q10" value="Drug induced SLE"> Drug induced SLE</label>
+                <label><input type="radio" name="q10" value="Polymyalgia rheumatica"> Polymyalgia rheumatica</label>
+                <label><input type="radio" name="q10" value="Felty syndrome"> Felty syndrome</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-11">
+            <p>11- Which one of the following features is least commonly seen in drug-induced lupus?</p>
+            <div class="options">
+                <label><input type="radio" name="q11" value="Glomerulonephritis"> Glomerulonephritis</label>
+                <label><input type="radio" name="q11" value="Arthralgia"> Arthralgia</label>
+                <label><input type="radio" name="q11" value="Myalgia"> Myalgia</label>
+                <label><input type="radio" name="q11" value="Malar rash"> Malar rash</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-12">
+            <p>12- 31 year old female with a history of SLE gives birth to a baby with complete heart block who subsequently requires pacemaker insertion. Which of the following antibodies is most likely to be detected in the maternal serum?</p>
+            <div class="options">
+                <label><input type="radio" name="q12" value="Anti-double-stranded deoxyribonucleic acid (dsDNA) antibodies"> Anti-double-stranded deoxyribonucleic acid (dsDNA) antibodies</label>
+                <label><input type="radio" name="q12" value="Anti-endomysial antibodies"> Anti-endomysial antibodies</label>
+                <label><input type="radio" name="q12" value="Anti-Ro/SSA antibodies"> Anti-Ro/SSA antibodies</label>
+                <label><input type="radio" name="q12" value="Anti-SCL 70 antibodies"> Anti-SCL 70 antibodies</label>
+                <label><input type="radio" name="q12" value="Rheumatoid factor"> Rheumatoid factor</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-13">
+            <p>13- Which of the following features are not typically seen in a patient with adult onset Still's disease?</p>
+            <div class="options">
+                <label><input type="radio" name="q13" value="Maculopapular rash"> Maculopapular rash</label>
+                <label><input type="radio" name="q13" value="Rheumatoid factor"> Rheumatoid factor</label>
+                <label><input type="radio" name="q13" value="Pyrexia"> Pyrexia</label>
+                <label><input type="radio" name="q13" value="High ferritin level"> High ferritin level</label>
+                <label><input type="radio" name="q13" value="Lymphadenopathy"> Lymphadenopathy</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-14">
+            <p>14- A 27-year-old woman is admitted to the intensive care unit after recent delivery of a full-term infant 3 days prior. The patient was found to have right hemiparesis and a blue left hand. Physical examination is also notable for livedo reticularis. Her laboratories were notable for a white blood cell (WBC) count of 10.2/μL, hematocrit of 35%, and platelet count of 13,000/μL. Her blood urea nitrogen (BUN) is 36 mg/dL, and her creatinine is 2.3 mg/dL. Although this pregnancy was uneventful, the three prior pregnancies resulted in early losses. A peripheral smear shows no evidence of schistocytes. Which of the following laboratory studies will best confirm the underlying etiology of her presentation?</p>
+            <div class="options">
+                <label><input type="radio" name="q14" value="Anticardiolipin antibody panel"> Anticardiolipin antibody panel</label>
+                <label><input type="radio" name="q14" value="Antinuclear antibody"> Antinuclear antibody</label>
+                <label><input type="radio" name="q14" value="Doppler examination of her left arm arterial tree"> Doppler examination of her left arm arterial tree</label>
+                <label><input type="radio" name="q14" value="Echocardiography"> Echocardiography</label>
+                <label><input type="radio" name="q14" value="Magnetic resonance imaging (MRI) of her brain"> Magnetic resonance imaging (MRI) of her brain</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-15">
+            <p>15- Which of the following findings is not typical in a patient with antiphospholipid syndrome?</p>
+            <div class="options">
+                <label><input type="radio" name="q15" value="Prolonged APTT"> Prolonged APTT</label>
+                <label><input type="radio" name="q15" value="Thrombocytosis"> Thrombocytosis</label>
+                <label><input type="radio" name="q15" value="Recurrent venous thrombosis"> Recurrent venous thrombosis</label>
+                <label><input type="radio" name="q15" value="Recurrent arterial thrombosis"> Recurrent arterial thrombosis</label>
+                <label><input type="radio" name="q15" value="Livedo reticularis"> Livedo reticularis</label>
+            </div>
+        </div>
+
+        <div class="question" id="question-16">
+            <p> 16- A 30-year-old female who is known to have antiphospholipid syndrome is diagnosed as having a deep vein thrombosis This is her first thrombotic event. How should her anticoagulation be managed'? </p>
+            <div class="options">
+                <label><input type="radio" name="q16" value="Life-long low-dose aspirin"> Life-long low-dose aspirin</label>
+                <label><input type="radio" name="q16" value="6 months warfarin, target INR 2 - 3"> 6 months warfarin, target INR 2 - 3</label>
+                <label><input type="radio" name="q16" value="Life-long warfarin, target INR 3-4"> Life-long warfarin, target INR 3-4</label>
+                <label><input type="radio" name="q16" value="Life-long warfarin, target INR 2-3"> Life-long warfarin, target INR 2-3</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-17">
+            <p> 17- A 34-year-old woman with a history of antiphospholipid syndrome presents with a swollen and painful leg. Doppler ultrasound confirms a deep vein thrombosis (DVT). She had a previous DVT 4 months ago and was taking warfarin (with a target INR of 2-3) when the DVT occurred. How should her anticoagulation be managed? </p>
+            <div class="options">
+                <label><input type="radio" name="q17" value="Life-long warfarin, increase target INR to 3-4"> Life-long warfarin, increase target INR to 3-4</label>
+                <label><input type="radio" name="q17" value="Add in life-long low-dose aspirin"> Add in life-long low-dose aspirin</label>
+                <label><input type="radio" name="q17" value="A further 6 months warfarin, target INR 2-3"> A further 6 months warfarin, target INR 2-3</label>
+                <label><input type="radio" name="q17" value="A further 6 months warfarin, target INR 3 - 4"> A further 6 months warfarin, target INR 3 - 4</label>
+                <label><input type="radio" name="q17" value="Life-long warfarin, target INR 2 - 3"> Life-long warfarin, target INR 2 - 3</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-18">
+            <p> 18- Patients with antiphospholipid syndrome will often falsely test positive for which of the following infectious diseases? </p>
+            <div class="options">
+                <label><input type="radio" name="q18" value="Malaria"> Malaria</label>
+                <label><input type="radio" name="q18" value="Human immunodeficiency virus (HIV)"> Human immunodeficiency virus (HIV)</label>
+                <label><input type="radio" name="q18" value="Schistosomiasis"> Schistosomiasis</label>
+                <label><input type="radio" name="q18" value="Hepatitis C"> Hepatitis C</label>
+                <label><input type="radio" name="q18" value="Syphilis"> Syphilis</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-19">
+            <p> 19- A 33-year-old female is admitted to the Emergency Department due to right-sided weakness. She has a past history of deep vein thrombosis following the birth of her daughter. The only other past history of note is two miscarriages. A CT head confirms an ischaemic stroke in the left middle cerebral artery territory. What is the likely finding on echocardiography? </p>
+            <div class="options">
+                <label><input type="radio" name="q19" value="Normal"> Normal</label>
+                <label><input type="radio" name="q19" value="Dilated cardiomyopathy"> Dilated cardiomyopathy</label>
+                <label><input type="radio" name="q19" value="Bicuspid aortic valve"> Bicuspid aortic valve</label>
+                <label><input type="radio" name="q19" value="Atrial septal defect"> Atrial septal defect</label>
+                <label><input type="radio" name="q19" value="Ventricular septal defect"> Ventricular septal defect</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-20">
+            <p> 20- A patient with diffuse cutaneous scleroderma (systemic sclerosis) who had been stable for several years is recently noted to have hypertension. This patient is at significant risk of dying from ..</p>
+            <div class="options">
+                <label><input type="radio" name="q20" value="thrombotic stroke"> thrombotic stroke</label>
+                <label><input type="radio" name="q20" value="central nervous system haemorrhage"> central nervous system haemorrhage</label>
+                <label><input type="radio" name="q20" value="renal failure"> renal failure</label>
+                <label><input type="radio" name="q20" value="pulmonary hypertension"> pulmonary hypertension</label>
+                <label><input type="radio" name="q20" value="pulmonary fibrosis"> pulmonary fibrosis</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-21">
+            <p> 21- A patient with a diagnosis of scleroderma who has diffuse cutaneous involvement presents with malignant hypertension, oliguria, edema, hemolytic anaemia, and renal failure. You make a diagnosis of scleroderma renal crisis. Which of the following is the recommended treatment? </p>
+            <div class="options">
+                <label><input type="radio" name="q21" value="Captopril"> Captopril</label>
+                <label><input type="radio" name="q21" value="Carvedilol"> Carvedilol</label>
+                <label><input type="radio" name="q21" value="Clonidine"> Clonidine</label>
+                <label><input type="radio" name="q21" value="Diltiazem"> Diltiazem</label>
+                <label><input type="radio" name="q21" value="Nitroprusside"> Nitroprusside</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-22">
+            <p> 22- Which of the following is nearly twice as common in patients with diffuse cutaneous systemic sclerosis than in limited cutaneous systemic sclerosis? </p>
+            <div class="options">
+                <label><input type="radio" name="q22" value="Esophageal involvement"> Esophageal involvement</label>
+                <label><input type="radio" name="q22" value="Pulmonary arterial hypertension"> Pulmonary arterial hypertension</label>
+                <label><input type="radio" name="q22" value="Pulmonary fibrosis"> Pulmonary fibrosis</label>
+                <label><input type="radio" name="q22" value="Raynaud phenomenon"> Raynaud phenomenon</label>
+                <label><input type="radio" name="q22" value="Skin involvement"> Skin involvement</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-23">
+            <p> 23- A 56-year-old lady is referred to rheumatology clinic due to severe Raynaud's phenomenon associated with arthralgia of the fingers. On examination you note shiny and tight skin of the fingers with a number of telangiectasia on the upper torso and face. She is also currently awaiting a gastroscopy to investigate heartburn. Which one of the following antibodies is most specific for the underlying condition? </p>
+            <div class="options">
+                <label><input type="radio" name="q23" value="Anti-Jo antibodies"> Anti-Jo antibodies</label>
+                <label><input type="radio" name="q23" value="Rheumatoid factor"> Rheumatoid factor</label>
+                <label><input type="radio" name="q23" value="Anti-Scl-70 antibodies"> Anti-Scl-70 antibodies</label>
+                <label><input type="radio" name="q23" value="Anti-centromere antibodies"> Anti-centromere antibodies</label>
+                <label><input type="radio" name="q23" value="Anti-nuclear factor"> Anti-nuclear factor</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-24">
+            <p> 24- A 44-year-old female with a history of Raynaud's phenomenon is reviewed in the rheumatology clinic. She is currently being investigated for dysphagia. On examination, she is noted to have tight, shiny skin over her fingers. Which one of the following complications is she most likely to develop? </p>
+            <div class="options">
+                <label><input type="radio" name="q24" value="Early onset dementia"> Early onset dementia</label>
+                <label><input type="radio" name="q24" value="Erythema nodosum"> Erythema nodosum</label>
+                <label><input type="radio" name="q24" value="Malabsorption"> Malabsorption</label>
+                <label><input type="radio" name="q24" value="Constrictive pericarditis"> Constrictive pericarditis</label>
+                <label><input type="radio" name="q24" value="Erosive joint disease"> Erosive joint disease</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-25">
+            <p> 25- A 44-year-old woman is seen in the rheumatology clinic. She has been referred with Raynaud's phenomenon. During the review of systems she mentions that her GP is organising an endoscopy to investigate dyspepsia. On examination she is noted to have tight, shiny shin over her fingers. Which one of the following complications is she most likely to develop? </p>
+            <div class="options">
+                <label><input type="radio" name="q25" value="Bronchiectasis"> Bronchiectasis</label>
+                <label><input type="radio" name="q25" value="Angiodysplasia"> Angiodysplasia</label>
+                <label><input type="radio" name="q25" value="Arterial hypertension"> Arterial hypertension</label>
+                <label><input type="radio" name="q25" value="Chronic kidney disease"> Chronic kidney disease</label>
+                <label><input type="radio" name="q25" value="Pulmonary hypertension"> Pulmonary hypertension</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-26">
+            <p> 26- A 47-year-old female is referred to the rheumatology clinic due to cold fingers. Which connective tissue disease is most strongly associated with Raynaud's phenomenon? </p>
+            <div class="options">
+                <label><input type="radio" name="q26" value="Systemic lupus erythematosus"> Systemic lupus erythematosus</label>
+                <label><input type="radio" name="q26" value="Rheumatoid arthritis"> Rheumatoid arthritis</label>
+                <label><input type="radio" name="q26" value="Systemic sclerosis"> Systemic sclerosis</label>
+                <label><input type="radio" name="q26" value="Sjogren's syndrome"> Sjogren's syndrome</label>
+                <label><input type="radio" name="q26" value="Polyarteritis nodosa"> Polyarteritis nodosa</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-27">
+            <p> 27- Which of the following is not a recognised cause of Raynaud's phenomenon? </p>
+            <div class="options">
+                <label><input type="radio" name="q27" value="Oral contraceptive pill"> Oral contraceptive pill</label>
+                <label><input type="radio" name="q27" value="Cervical rib"> Cervical rib</label>
+                <label><input type="radio" name="q27" value="Type 1 cryoglobulinaemia"> Type 1 cryoglobulinaemia</label>
+                <label><input type="radio" name="q27" value="Pizotifen"> Pizotifen</label>
+                <label><input type="radio" name="q27" value="Scleroderma"> Scleroderma</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-28">
+            <p> 28- Which one of the following would not suggest an underlying connective tissue disorder in a patient with Raynaud's? </p>
+            <div class="options">
+                <label><input type="radio" name="q28" value="Unilateral symptoms"> Unilateral symptoms</label>
+                <label><input type="radio" name="q28" value="Digital ulcers"> Digital ulcers</label>
+                <label><input type="radio" name="q28" value="Presence of autoantibodies"> Presence of autoantibodies</label>
+                <label><input type="radio" name="q28" value="Onset at 25 years old"> Onset at 25 years old</label>
+                <label><input type="radio" name="q28" value="Calcinosis"> Calcinosis</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-29">
+            <p> 29- A 31-year-old woman presents as her fingers intermittently turn white and become painful. She describes the fingers first turning white, then blue and finally red. This is generally worse in the winter months but it is present all year round. Wearing gloves does not help. Clinical examination of her hands, other joints and skin is unremarkable. Which one of the following treatments may be beneficial? </p>
+            <div class="options">
+                <label><input type="radio" name="q29" value="Amitriptyline"> Amitriptyline</label>
+                <label><input type="radio" name="q29" value="Aspirin"> Aspirin</label>
+                <label><input type="radio" name="q29" value="Pregabalin"> Pregabalin</label>
+                <label><input type="radio" name="q29" value="Propranolol"> Propranolol</label>
+                <label><input type="radio" name="q29" value="Nifedipine"> Nifedipine</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-30">
+            <p> 30- A 35-year-old woman who has severe Raynaud's disease is reviewed in clinic. Three months ago she was started on nifedipine. Unfortunately this has had a minimal effect on her symptoms and has resulted in ankle oedema. What is the most appropriate next step in management? </p>
+            <div class="options">
+                <label><input type="radio" name="q30" value="Aspirin"> Aspirin</label>
+                <label><input type="radio" name="q30" value="Sympathectomy"> Sympathectomy</label>
+                <label><input type="radio" name="q30" value="Intravenous prostacyclin"> Intravenous prostacyclin</label>
+                <label><input type="radio" name="q30" value="Methotrexate"> Methotrexate</label>
+                <label><input type="radio" name="q30" value="intravenous infliximab"> intravenous infliximab</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-31">
+            <p> 31- A 45-year-old woman is referred to rheumatology outpatients with a 4 month history of joint pains, myalgia and generalised lethargy. An autoantibody screen reveals she is ANA positive and anti-ribonucleoprotein positive. The creatine kinase is elevated at 525. What is the most likely diagnosis? </p>
+            <div class="options">
+                <label><input type="radio" name="q31" value="Systemic lupus erythematosus"> Systemic lupus erythematosus</label>
+                <label><input type="radio" name="q31" value="Mixed connective tissue disease"> Mixed connective tissue disease</label>
+                <label><input type="radio" name="q31" value="Polymyositis"> Polymyositis</label>
+                <label><input type="radio" name="q31" value="Dermatomyositis"> Dermatomyositis</label>
+                <label><input type="radio" name="q31" value="CREST syndrome"> CREST syndrome</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-32">
+            <p> 32- Which of the following autoantibodies is typically present in high titers in patients with mixed connective tissue disease? </p>
+            <div class="options">
+                <label><input type="radio" name="q32" value="Anti-centromere"> Anti-centromere</label>
+                <label><input type="radio" name="q32" value="Anti-La"> Anti-La</label>
+                <label><input type="radio" name="q32" value="Anti-Ro"> Anti-Ro</label>
+                <label><input type="radio" name="q32" value="Anti–Scl-70"> Anti–Scl-70</label>
+                <label><input type="radio" name="q32" value="Anti–U1-RNP"> Anti–U1-RNP</label>
+            </div>
+        </div>
+
+        <button class="btn" id="nextBtn" onclick="nextQuestion()">Next Question</button>
+        <button class="btn" id="submitBtn" onclick="evaluateQuiz()" style="display: none;">Submit Quiz</button>
+
+        <div class="result" id="result">
+            <h2>Results</h2>
+            <div id="score"></div>
+            <div id="answers-summary"></div>
+        </div>
+    </div>
+
+    <script>
+                // إنشاء عنصر الـ Overlay عند تحميل الصفحة
+                const overlay = document.createElement("div");
+        overlay.style.position = "fixed";
+        overlay.style.top = "0";
+        overlay.style.left = "0";
+        overlay.style.width = "100vw";
+        overlay.style.height = "100vh";
+        overlay.style.background = "rgba(0, 0, 0, 1)";
+        overlay.style.color = "white";
+        overlay.style.display = "flex";
+        overlay.style.justifyContent = "center";
+        overlay.style.alignItems = "center";
+        overlay.style.fontSize = "24px";
+        overlay.style.zIndex = "9999";
+        overlay.style.opacity = "0";
+        overlay.style.transition = "opacity 0.3s ease-in-out";
+        overlay.innerHTML = "Screenshot capturing is not allowed";
+        overlay.style.cursor = "pointer";
+        document.body.appendChild(overlay);
+        // إخفاء الـ Overlay عند النقر عليه
+        overlay.addEventListener("click", function () {
+            overlay.style.opacity = "0";
+            setTimeout(() => (overlay.style.display = "none"), 300);
+        });
+
+        // إضافة حدث للكيبورد لمنع الـ PrintScreen
+        document.addEventListener("keyup", function (event) {
+            if (event.key === "PrintScreen") {
+                navigator.clipboard.writeText(""); // إزالة المحتوى من الحافظة
+                // إظهار الـ Overlay
+                overlay.style.display = "flex";
+                setTimeout(() => (overlay.style.opacity = "1"), 10);
+            }
+        });
+        
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "F12" || (event.ctrlKey && event.shiftKey && event.key === "I")) {
+                event.preventDefault();
+                alert("تم تعطيل أدوات المطور!");
+            }
+        });
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault(); // يمنع فتح قائمة السياق
+            alert("النقر بزر الماوس الأيمن غير مسموح به.");
+        });
+        let currentQuestion = 1;
+        const totalQuestions = 32;
+        let score = 0;
+        let timerInterval;
+        const answers = {
+            q1: "SLE",
+            q2: "Anti-Sm antibodies",
+            q3: "Anti-dsDNA antibodies in SLE",
+            q4: "Musculoskeletal",
+            q5: "C4",
+            q6: "Characterised by follicular keratin plugs",
+            q7: "Onset is typically between 20-40 years old",
+            q8: "Anti-La (SS-B)",
+            q9: "Prednisolone and intravenous cyclophosphamide",
+            q10: "Drug induced SLE",
+            q11: "Glomerulonephritis",
+            q12: "Anti-Ro/SSA antibodies",
+            q13: "Rheumatoid factor",
+            q14: "Anticardiolipin antibody panel",
+            q15: "Thrombocytosis",
+            q16: "6 months warfarin, target INR 2 - 3",
+            q17: "Life-long warfarin, increase target INR to 3-4",
+            q18: "Syphilis",
+            q19: "Normal",
+            q20: "renal failure",
+            q21: "Captopril",
+            q22: "Pulmonary fibrosis",
+            q23: "Anti-centromere antibodies",
+            q24: "Malabsorption",
+            q25: "Pulmonary hypertension",
+            q26: "Systemic sclerosis",
+            q27: "Pizotifen",
+            q28: "Onset at 25 years old",
+            q29: "Nifedipine",
+            q30: "Intravenous prostacyclin",
+            q31: "Mixed connective tissue disease",
+            q32: "Anti–U1-RNP"
+        };
+
+        function showQuestion() {
+            document.querySelectorAll('.question').forEach((q, index) => {
+                q .style.display = index + 1 === currentQuestion ? 'block' : 'none';
+            });
+            document.getElementById('nextBtn').style.display = currentQuestion < totalQuestions ? 'block' : 'none';
+            document.getElementById('submitBtn').style.display = currentQuestion === totalQuestions ? 'block' : 'none';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            clearInterval(timerInterval);
+            startTimer();
+            showQuestion();
+        }
+
+        function startTimer() {
+            let timeRemaining = 60;
+            document.getElementById('timer').textContent = `Time remaining: ${timeRemaining} seconds`;
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                document.getElementById('timer').textContent = `Time remaining: ${timeRemaining} seconds`;
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    if (currentQuestion < totalQuestions) {
+                        nextQuestion();
+                    } else {
+                        evaluateQuiz();
+                    }
+                }
+            }, 1000);
+        }
+
+        function evaluateQuiz() {
+            score = 0;
+            let summary = '';
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const selectedOption = document.querySelector(`input[name="q${i}"]:checked`);
+                const correctAnswer = answers[`q${i}`];
+                const questionElement = document.getElementById(`question-${i}`);
+                const options = document.querySelectorAll(`input[name="q${i}"]`);
+                let questionSummary = `<p><strong>Question ${i}: </strong>${questionElement.querySelector('p').innerText}</p>`;
+
+                options.forEach(option => {
+                    const optionLabel = option.parentElement;
+                    if (option.value === correctAnswer) {
+                        optionLabel.style.color = 'green';
+                    } else if (selectedOption && selectedOption.value === option.value) {
+                        optionLabel.style.color = 'red';
+                    }
+                });
+
+                questionSummary += `<div>Answer: <strong>${selectedOption ? selectedOption.value : 'None selected'}</strong></div>`;
+                questionSummary += `<div>Correct answer: <strong>${correctAnswer}</strong></div>`;
+
+                if (selectedOption && selectedOption.value === correctAnswer) {
+                    score++;
+                    summary += questionSummary + `<p class="correct">Correct</p>`;
+                } else {
+                    summary += questionSummary + `<p class="incorrect">Incorrect</p>`;
+                }
+            }
+
+            document.getElementById('score').textContent = `Your score: ${score} out of ${totalQuestions}`;
+            document.getElementById('answers-summary').innerHTML = summary;
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('timer').style.display = 'none'; 
+            document.querySelectorAll('.question').forEach((q) => q.style.display = 'none');
+
+            clearInterval(timerInterval);
+        }
+
+        window.onload = function() {
+            showQuestion();
+            startTimer();
+        };
+        
+        
+        function nextQuestion() {
+    // Increase the current question counter
+            currentQuestion++;
+
+            // Reset the timer
+            clearInterval(timerInterval); // Stop the current timer
+            startTimer(); // Start the timer from the beginning
+
+            // Show the next question
+            showQuestion();
+        }
+        
+    </script>
+</body>
+</html>
